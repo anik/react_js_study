@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React JS</title>
+    <script src="./js/react.js"></script>
+    <script src="./js/react-dom.js"></script>
+    <script src="./js/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="application"></div>
+    <script type="text/babel">
+      var Card = React.createClass({
+          getInitialState: function () {
+              return {
+                  cardTitle: ['Card 1(Default)','Card 2(Default)']
+              }
+          },
+          addCard: function () {
+              let arr = this.state.cardTitle;
+              if(this.refs.newCard.value.trim()){
+                  arr.push( this.refs.newCard.value );
+                  this.refs.newCard.value = '';
+                  this.setState({ cardTitle:arr });
+              }
+          },
+          removeCard: function (i) {
+              let arr = this.state.cardTitle;
+              arr.pop();
+              this.setState({ cardTitle:arr });
+          },
+          eachCard: function (data,i) {
+              return (
+                  <div key={i} className="card-each">
+                      <span className="card-title">{data}</span>
+                      <button onClick={this.removeCard.bind(null,i)} className="remove-btn">- Card</button>
+                  </div>
+              );
+          },
+          render: function(){
+              return(
+                  <div className="card-container">
+                      {this.state.cardTitle.map(this.eachCard)}
+                      <input ref="newCard" type="text"/>
+                      <button onClick={this.addCard} className="list-add-btn">Add Card</button>
+                  </div>
+              )
+          }
+      });
+      var List = React.createClass({
+          getInitialState: function () {
+              return {
+                  listTitle: ['List 1(Default)','List 2(Default)']
+              }
+          },
+          addList: function () {
+              let arr = this.state.listTitle;
+              if(this.refs.newList.value.trim()){
+                  arr.push( this.refs.newList.value );
+                  this.refs.newList.value = '';
+                  this.setState({ listTitle:arr });
+              }
+          },
+          removeList: function (i) {
+              let arr = this.state.listTitle;
+              arr.pop();
+              this.setState({ listTitle:arr });
+          },
+          eachList: function (data,i) {
+              return (
+                  <div key={i} className="list-each">
+                      <span className="list-title">{data}</span>
+                      <button className="remove-btn" onClick={this.removeList.bind(null,i)}>- List</button>
+                      <Card/>
+                  </div>
+              );
+          },
+          render: function () {
+              return (
+                  <div className="list-container">
+                      <input ref="newList" type="text"/>
+                      <button className="list-add-btn" onClick={this.addList}>Add List</button>
+                      {this.state.listTitle.map(this.eachList)}
+                  </div>
+              );
+          }
+      });
+      ReactDOM.render( <List/> , document.getElementById('application') );
+    </script>
+
+    <style>
+        body{
+            background-color: #0079bf;
+        }
+        .list-each{
+            width: 220px;
+            background-color: #fff;
+            display: inline-block;
+            float: left;
+            padding: 15px;
+            border-radius: 3px;
+            margin-right: 20px;
+        }
+        .list-title{
+            font-size: 20px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        input{
+            padding: 3px 4px 4px;
+            border-radius: 4px;
+            border: 1px solid #a9a9a9;
+        }
+        .card-each {
+            padding: 10px 0px;
+        }
+        .remove-btn,.list-add-btn{
+            padding: 3px 5px 4px;
+            background: transparent;
+            border: 1px solid #b30000;
+            border-radius: 3px;
+            position: relative;
+            float: right;
+            margin-top: -5px;
+            background-color: #da0000;
+            color: #fff;
+        }
+        .list-add-btn{
+            background-color: #4db700;
+            border: 1px solid #4db700;
+            float: none;
+            margin-left: 5px;
+            margin-top: 0px;
+        }
+        .card-container{
+            margin-top: 10px;
+        }
+        .card-container input[type="text"],
+        .card-container button.list-add-btn{
+            margin-top: 20px;
+        }
+    </style>
+
+  </body>
+</html>
