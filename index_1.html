@@ -26,7 +26,7 @@
           },
           removeCard: function (i) {
               let arr = this.state.cardTitle;
-              arr.pop();
+              arr.splice( i,1 );
               this.setState({ cardTitle:arr });
           },
           eachCard: function (data,i) {
@@ -63,7 +63,7 @@
           },
           removeList: function (i) {
               let arr = this.state.listTitle;
-              arr.pop();
+              arr.splice( i,1 );
               this.setState({ listTitle:arr });
           },
           eachList: function (data,i) {
