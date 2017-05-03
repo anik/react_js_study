@@ -37,17 +37,21 @@
 				if(i.target.name == "price"){
 					arr[e].price =  i.target.value;
 				}
-				this.setState( arr );
+				this.setState( {itemList:arr} );
 			},
 			addItem: function(data){
 				let arr = this.state.itemList;
 				arr.push({ "title":"Item Description", "quantity": "0", "price": "0" });
-				this.setState( arr );
+				this.setState( {itemList:arr} );
 			},
 			removeItems: function(i){
 				let arr = this.state.itemList;
 				arr.splice(i,1);
-				this.setState( arr );
+				this.setState( {itemList:arr} );
+
+                console.log(i);
+                console.log(arr);
+                
 			},
 			eachItem: function (data,i) {
 				return (
