@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="UTF-8" />
+	<title>React JS</title>
+	<script src="./js/react.js"></script>
+	<script src="./js/react-dom.js"></script>
+	<script src="./js/babel.min.js"></script>
+  </head>
+  <body>
+	<div id="application"></div>
+
+	<script type="text/babel" >
+		var sum = 0;
+		var Items = React.createClass({
+			getInitialState: function () {
+				return {
+					itemList: [
+						{
+							title:"Item Name 1(Default)",
+							quantity:1,
+							price: 200
+						},
+						{
+							title:"Item Name 2(Default)",
+							quantity:2,
+							price: 150
+						},
+					]
+				}
+			},
+			changeTotal: function (e,i) {
+				let arr = this.state.itemList;
+				if(i.target.name == "quantity"){
+					arr[e].quantity =  i.target.value;
+				}
+				if(i.target.name == "price"){
+					arr[e].price =  i.target.value;
+				}
+				this.setState( arr );
+			},
+			addItem: function(data){
+				let arr = this.state.itemList;
+				arr.push({ "title":"Item Description", "quantity": "0", "price": "0" });
+				this.setState( arr );
+			},
+			removeItems: function(i){
+				let arr = this.state.itemList;
+				arr.splice(i,1);
+				this.setState( arr );
+			},
+			eachItem: function (data,i) {
+				return (
+					<tr key={i} className={"items-single"}>
+						<td><textarea className="title" defaultValue={data.title}></textarea></td>
+						<td><input type="number" name="quantity" onChange={this.changeTotal.bind(null,i)} className="quantity" defaultValue={data.quantity} /></td>
+						<td><input className="price" name="price" onChange={this.changeTotal.bind(null,i)} defaultValue={data.price} /></td>
+						<td><span className="total">{data.price * data.quantity}</span></td>
+						<td><button onClick={this.removeItems.bind(null,i)}>Remove</button></td>
+					</tr>
+				)
+			},
+			totalSum: function(){
+				let arr = this.state.itemList;
+				let sum = 0;
+				arr.forEach(function(element) {
+					sum = sum + ( element.quantity * element.price );
+				});
+				return ( sum );
+			},
+			render: function () {
+				return (
+					<div className="items-list">
+						<table>
+							<tbody>
+								<tr>
+									<th>Item Name</th>
+									<th>Quantity</th>
+									<th>Price</th>
+									<th>Total</th>
+									<th>Action</th>
+								</tr>
+								{this.state.itemList.map( this.eachItem )}
+								<tr>
+									<td></td>
+									<td></td>
+									<td></td>
+									<td><span>Total = {this.totalSum()}$</span></td>
+									<td><button onClick={this.addItem}>Add New</button></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				);
+			}
+		});
+		ReactDOM.render( <Items/> , document.getElementById( 'application' ) );
+	</script>
+	<style>
+		table {
+			border-collapse: collapse;
+			width: 100%;
+		}
+		th, td {
+			text-align: left;
+			padding: 8px;
+		}
+		tr:nth-child(even){background-color: #f2f2f2}
+		th {
+			background-color: #4CAF50;
+			color: white;
+		}
+	</style>
+  </body>
+</html>
